@@ -2,3 +2,7 @@
 	path = _includes/modules/includes-translate
 	url = https://github.com/liquid-utilities/includes-translate.git
 	branch = master
+[submodule "includes-hcard"]
+	path = _includes/modules/includes-hcard
+	url = https://github.com/liquid-utilities/includes-hcard.git
+	branch = main
