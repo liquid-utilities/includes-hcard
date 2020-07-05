@@ -8,7 +8,7 @@ author: S0AndS0
 {% endcomment %}
 
 
-{% assign name = include.hame | default: page.hcard.name | default: nil %}
+{% assign name = include.name | default: page.hcard.name | default: nil %}
 {% assign organization = include.organization | default: page.hcard.organization | default: nil %}
 
 {% assign photo_alt = include.photo_alt | default: page.hcard.photo.alt | default: nil %}
