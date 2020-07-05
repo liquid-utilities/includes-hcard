@@ -15,13 +15,13 @@ source: https://raw.githubusercontent.com/jekyll/minima/v2.0.0/_layouts/default.
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
         {{ content }}
-      </div>
 
-      {% if page.hcard %}
-        <div class="contacts">
-          {% include modules/includes-hcard/hcard.html %}
-        </div>
-      {% endif %}
+        {% if page.hcard %}
+          <div class="contacts">
+            {% include modules/includes-hcard/hcard.html %}
+          </div>
+        {% endif %}
+      </div>
     </main>
 
     {% include footer.html %}
