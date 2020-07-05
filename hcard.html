@@ -1,0 +1,177 @@
+{% capture workspace__hcard %}
+{% comment %}
+---
+version: 0.0.1
+license: AGPL-3.0
+author: S0AndS0
+---
+
+## Include this file by assigning at include time via
+
+  {% include modules/include-hcard/hcard.html name="Jayne Cobb" ... %}
+
+
+## FrontMatter Example
+
+hcard:
+  organization: ''
+  name: 'Jayne Cobb'
+
+  # email_type: office
+  # email_address: name@example.com
+  emails:
+    - type: office
+      address: name@example.com
+
+  # phone_type: cell
+  # phone_number: 555-123-4567
+  phone_numbers:
+    - type: cell
+      number: 555-123-4567
+
+    - type: office
+      number: 555-987-6543
+
+  address:
+    street: 418 Code St.
+    extended: Suite 503
+    country-code: USA
+    country-name: United States of America
+    locality: Server Request
+    region: ZZ
+    zip: 12345
+
+  # link_label: 'example'
+  # link_url: https://example.com
+  links:
+    - label: 'example one'
+      url: example.com
+
+    - label: 'example two'
+      url: example.com
+
+    - label: 'example three'
+      url: example.com
+
+___
+{% endcomment %}
+
+
+{% assign name = include.hame | default: page.hcard.name | default: nil %}
+{% assign organization = include.organization | default: page.hcard.organization | default: nil %}
+
+{% assign photo_alt = include.photo_alt | default: page.hcard.photo.alt | default: nil %}
+{% assign photo_src = include.photo_src | default: page.hcard.photo.src | default: nil %}
+{% unless photo_alt %}
+  {% if photo_src and name %}
+    {% assign photo_alt = "Photo of " | append: name %}
+  {% elsif photo_src and organization %}
+    {% assign photo_alt = "Photo of " | append: organization %}
+  {% endif %}
+{% endunless %}
+
+{% assign email_address = include.email_address | default: page.hcard.email_address | default: nil %}
+{% assign email_type = include.email_type | default: page.hcard.email_type | default: nil %}
+{% assign emails = include.emails | default: page.hcard.emails | default: nil %}
+
+{% assign phone_type = include.phone_type | default: page.hcard.phone_type | default: nil %}
+{% assign phone_number = include.phone_number | default: page.hcard.phone_number | default: nil %}
+{% assign phone_numbers = include.phone_numbers | default: page.hcard.phone_numbers | default: nil %}
+
+{% assign address_street = include.address_street | default: page.hcard.address.street | default: nil %}
+{% assign address_extended = include.address_extended | default: page.hcard.address.extended | default: nil %}
+{% assign address_country_code = include.address_country_code | default: page.hcard.address.country_code | default: nil %}
+{% assign address_country_name = include.address_country_name | default: page.hcard.address.country_name | default: nil %}
+{% assign address_locality = include.address_locality | default: page.hcard.address.locality | default: nil %}
+{% assign address_region = include.address_region | default: page.hcard.address.region | default: nil %}
+{% assign postal_code = include.address_postal_code | default: page.hcard.address.postal_code | default: nil %}
+
+{% assign links = include.links | default: page.hcard.links | default: nil %}
+{% assign link_label = include.link_label | default: page.hcard.link_label | default: nil %}
+{% assign link_url = include.link_url | default: page.hcard.link_url | default: nil %}
+
+
+{% if organization or name %}
+  {% if name %}
+    <div id="hcard-{{ name | downcase | replace: ' ','-' }}" class="h-card vcard">
+  {% elsif organization %}
+    <div id="hcard-{{ organization | downcase | replace: ' ','-' }}" class="h-card vcard">
+  {% endif %}
+
+      {% if photo_src and photo_alt %}
+        <img class="photo" src="{{ photo_src }}" alt="{{ photo_alt }}">
+      {% endif %}
+
+      {% if organization %}
+        <div class="p-org org">{{ organization }}</div>
+      {% endif %}
+
+      {% if name %}
+        <div class="p-name fn">{{ name }}</div>
+      {% endif %}
+
+      {% if phone_numbers %}
+        {% for phone in phone_numbers %}
+          <div class="p-tel tel">
+          {% if phone.type %}<span class="type">{{ phone.type }}</span>: {% endif %}
+            <a class="value">{{ phone.number }}</a>
+          </div>
+        {% endfor %}
+      {% elsif phone_number %}
+        {% if phone_type %}<span class="type">{{ phone_type }}</span>: {% endif %}
+        <a class="p-tel tel">{{ phone_number }}</a>
+      {% endif %}
+
+      {% if emails %}
+        {% for email in emails %}
+          <div class="u-email email">
+            {% if email.type %}
+              <span class="type">{{ email.type }}</span>:
+            {% endif %}
+            <a class="value" href="mailto:{{ email.address }}">{{ email.address }}</a>
+          </div>
+        {% endfor %}
+      {% elsif email_address %}
+        <div class="u-email email">
+          {% if email_type %}<span class="type">{{ email_type }}</span>: {% endif %}
+          <a class="value" href="mailto:{{ email_address }}">{{ email_address }}</a>
+        </div>
+      {% endif %}
+
+      {% if address_street or extended_address or address_locality or address_region or postal_code or address_country_code or address_country_name %}
+        <div class="p-adr adr">
+          {% if address_street %}
+            <span class="p-street-address street-address">{{ address_street }}</span>
+          {% endif %}
+          {% if extended_address %},
+            <span class="p-extended-address extended-address">{{ extended_address }}</span>
+          {% endif %}
+          {% if address_locality %}
+            <span class="p-locality locality">{{ address_locality }}</span>
+          {% endif %}
+          {% if address_region %},
+            <span class="p-region region">{{ address_region }}</span>
+          {% endif %}
+          {% if postal_code %}
+            <span class="p-postal-code postal-code">{{ postal_code }}</span>
+          {% endif %}
+          {% if address_country_code %}
+            <span class="p-country-name {{ address_country_code | downcase }}"{% if address_country_name %} title="{{ address_country_name }}"{% endif %}>
+              {{ address_country_code }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if links %}
+        {% for link in links %}
+          <div><a class="url fn org" href="{{ link.url }}">{{ link.label }}</a>: <small>{{ link.url }}</small></div>
+        {% endfor %}
+      {% elsif link_label and link_url %}
+        <div><a class="url fn org" href="{{ link_url }}">{{ link_label }}</a>: <small>{{ link_url }}</small></div>
+      {% endif %}
+
+  </div>
+{% endif %}
+
+{% endcapture %}{%- if workspace__hcard -%}{{ workspace__hcard | strip }}{% assign workspace__hcard = nil %}{%- endif -%}
