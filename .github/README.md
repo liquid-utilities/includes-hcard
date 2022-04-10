@@ -44,7 +44,7 @@ main
 This repository depends upon [Jekyll][jekyll_rb__home] which is supported by [GitHub Pages][github_docs__github_pages__jekyll], further details about setup can be found from [documentation][jekyll_rb__github_pages] published by the Jekyll maintainers regarding GitHub Pages.
 
 
-___
+______
 
 
 ## Quick Start
@@ -344,7 +344,7 @@ excerpt: Example of using `include` keyword to define HCard content
 </div>
 ```
 
-___
+______
 
 
 ## Notes
@@ -399,7 +399,7 @@ git push fork main
 > Note; to decrease the chances of your Pull Request needing modifications before being accepted, please check the [dot-github](https://github.com/liquid-utilities/.github) repository for detailed contributing guidelines.
 
 
-___
+______
 
 
 ## Attribution
@@ -417,7 +417,7 @@ ___
 - [XFront -- `microformats/hCard`](https://www.xfront.com/microformats/hCard.html)
 
 
-___
+______
 
 
 ## License
@@ -441,7 +441,6 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 ```
 
 
